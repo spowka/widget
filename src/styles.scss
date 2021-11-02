@@ -1,1 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../src/assets/fonts/DIN2014/fonts.css";
+@import "../src/styles/_variables.scss";
+@import "../src/styles/styles.scss";
+
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: "DIN 2014";
+   background-color: gray;
+}
+
+/* custom-scroll */
+
+/* width */
+::-webkit-scrollbar {
+   width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+   background: #ffffff;
+   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+   border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+   background: #363636;
+   border-radius: 10px;
+   border: 1px solid white;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+   background: $colorDark;
+}
+
+/* end-custom-scroll */
+
+a  {
+   text-decoration: none;
+}
+
+ul,
+ol,
+li  {
+   list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p  {
+   font-weight: inherit;
+   font-size: inherit;
+   margin: 0;
+}
+input  {
+   outline: none;
+}
+button  {
+   cursor: pointer;
+}
+
+.container {
+   padding: 0 35px 0 35px;
+}
+
+.visibility-hidden {
+   visibility: hidden;
+}

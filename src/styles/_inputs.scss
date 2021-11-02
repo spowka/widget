@@ -1,0 +1,39 @@
+.form-group {
+   position: relative;
+   width: 100%;
+   max-width: 258px;
+
+   .form-control {
+      width: 100%;
+      height: 30px;
+      padding: 6px 10px 6px 15px;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 15px;
+      border-bottom: 1px solid $colorBorder;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      color: $colorDark;
+      outline: none;
+      transition: 300ms;
+
+      &::placeholder {
+         color: #808080;
+      }
+
+      &:focus {
+         border-bottom: 1px solid $colorDark;
+         transition: 300ms;
+      }
+
+      &:hover {
+         border-bottom: 1px solid $colorDark;
+         transition: 300ms;
+      }
+
+      &.ng-invalid.ng-touched {
+         border-bottom: 1px solid $colorRubinate;
+      }
+   }
+}

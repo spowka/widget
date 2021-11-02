@@ -1,0 +1,32 @@
+@import "../../../../styles/variables";
+
+.error-msg {
+   position: absolute;
+   color: $colorRubinate;
+   font-size: 10px;
+   font-weight: 600;
+   right: 0;
+   margin-top: -1px;
+}
+ 
+ :host.relative .error-msg {
+   position: relative;
+   text-align: right;
+ }
+ 
+ :host.left .error-msg {
+   left: 0;
+   right: auto;
+ }
+ 
+ :host.description-msg {
+   position: relative;
+   width: 100%;
+ }
+ 
+   :host.description-msg .error-msg {
+     right: auto;
+     width: 100%;
+     margin: auto;
+   }
+ 

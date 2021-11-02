@@ -1,0 +1,53 @@
+@import "../../../../styles/_variables.scss";
+
+.site-footer {
+   width: 100%;
+   height: 40px;
+   padding: 12px 68px 12px 68px;
+   background: $colorLightGray;
+   border-radius: 0px 0px 9px 9px;
+
+   @media screen and (max-width: 540px) {
+         padding: 12px 35px 12px 35px;
+   }
+
+   &__logo {
+      cursor: pointer;
+
+      img {
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   &__info {
+      width: 327px;
+
+      li:first-child {
+         margin-right: 65px;
+      }
+      
+   }
+
+   .location {
+      font-size: 12px;
+      line-height: 15px;
+      text-decoration-line: underline;
+      color: $colorDark;
+      cursor: pointer;
+   }
+}
+
+@media screen and (max-width: 610px) {
+   .site-footer {
+      &__info {
+         width: 285px;
+   
+         li:first-child {
+            margin-right: 20px;
+         }
+         
+      }
+   }
+}
+

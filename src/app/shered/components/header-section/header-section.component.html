@@ -1,0 +1,7 @@
+<div class="header-section wg-flex wg-flex-center wg-flex-wrap wg-flex-start wg-padding-t-25">
+   <button class="back btn btn-dark wg-flex wg-flex-center" *ngIf="isVisibleBtn" (click)="goToBackPage()">
+      <img src="../../../assets/icon/back.svg" alt="back" class="wg-margin-r-7"/>
+      Назад
+   </button>
+   <h2 class="title" [class.wg-margin-l-25]="isVisibleBtn">{{title}}</h2>
+</div>

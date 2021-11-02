@@ -1,0 +1,36 @@
+.notification {
+   &__body {
+      padding-top: 25px;
+      padding-bottom: 28px;
+
+      &__title {
+         .empty-div {
+            width: 16%;
+         }
+
+         .description {
+            width: 84%;
+         }
+
+         .text {
+            max-width: 460px;
+            font-weight: 300;
+         }
+
+         @media screen and (max-width: 890px) {
+            .empty-div {
+               display: none;
+            }
+
+            .description {
+               width: 100%;
+               max-width: 768px;
+            }
+
+            .text {
+               max-width: 100%;
+            }
+         }
+      }
+   }
+}

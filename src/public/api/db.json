@@ -1,0 +1,305 @@
+{
+   "collections": [
+      {
+         "id": 1,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 0,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 1,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 2,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 3,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": true,
+               "currnetPrice": 250,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 4,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 5,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": true,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 6,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 7,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      },
+      {
+         "id": 2,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 0,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 1,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 2,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 3,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 4,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": true,
+               "currnetPrice": 250,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 5,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 6,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": true,
+               "isSale": 0,
+               "isSalePercent": 0
+            },
+            {
+               "id": 7,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "currnetPrice": 250,
+               "isSale": 188,
+               "isSalePercent": -25
+            },
+            {
+               "id": 8,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      },
+      {
+         "id": 3,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 3,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": true,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      },
+      {
+         "id": 4,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 4,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      },
+      {
+         "id": 5,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 5,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": true,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      },
+      {
+         "id": 6,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 6,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 253,
+               "isDisable": false,
+               "isSale": 188,
+               "isSalePercent": -25
+            }
+         ]
+      },
+      {
+         "id": 7,
+         "title": "Имя Коллекции",
+         "photo": "../../assets/img/collections.jpg",
+         "cards": [
+            {
+               "id": 7,
+               "photo": "../../assets/img/frontside.jpg",
+               "backPhoto": "../../assets/img/backside.jpg",
+               "title": "Буше Рид",
+               "circulation": 253,
+               "instock": 0,
+               "isDisable": false,
+               "isSale": 0,
+               "isSalePercent": 0
+            }
+         ]
+      }
+   ]
+}

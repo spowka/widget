@@ -1,0 +1,24 @@
+.placeholder-animate {
+   background: linear-gradient(90deg, #F5F5F5, #e8e8e8, #F5F5F5) !important;
+   background-size: 600% 600%;
+ 
+   -webkit-animation: placeholder_animation 2s ease infinite;
+   -moz-animation: placeholder_animation 2s ease infinite;
+   animation: placeholder_animation 2s ease infinite;
+ }
+
+@-webkit-keyframes placeholder_animation {
+   0%{background-position:0% 50%}
+   50%{background-position:100% 50%}
+   100%{background-position:0% 50%}
+ }
+ @-moz-keyframes placeholder_animation {
+   0%{background-position:0% 50%}
+   50%{background-position:100% 50%}
+   100%{background-position:0% 50%}
+ }
+ @keyframes placeholder_animation {
+   0%{background-position:0% 50%}
+   50%{background-position:100% 50%}
+   100%{background-position:0% 50%}
+ }

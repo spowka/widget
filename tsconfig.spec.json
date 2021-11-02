@@ -5,7 +5,12 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jasmine"
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@icon/*":["./src/assets/icon/*"],
+      "@img/*":["./src/assets/img/*"]
+   }
   },
   "files": [
     "src/test.ts",

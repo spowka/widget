@@ -1,0 +1,167 @@
+/* buttons */
+
+.btn {
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+  color: $colorWhite;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  transition: 150ms;
+
+  &:hover {
+     opacity: 0.9;
+     transition: 150ms;
+  }
+
+  &:disabled {
+     opacity: 0.6;
+     cursor: default;
+  }
+
+  &.btn-dark {
+    height: 30px;
+    background-color: $colorDark;
+    border-radius: 6px;
+  }
+
+  &.btn-rubinate {
+    background-color: $colorRubinate;
+    border-radius: 6px;
+  }
+}
+
+/* end-buttons */
+
+
+/* count-group */
+.count-group {
+  display: flex;
+  align-items: center;
+
+  .plus,
+  .minus {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: 150ms;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+       opacity: 0.9;
+       transition: 150ms;
+    }
+
+    &.disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+
+  .form-group-counter {
+    display: flex;
+    align-items: center;
+    margin: 0 9px;
+
+    .form-control-counter {
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      font-size: 16px;
+      background: #ffffff;
+      color: $colorDark;
+      box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
+      border-radius: 6px;
+      border: none;
+    }
+  }
+}
+
+/* end-count-group */
+
+/* radio-buttons */
+
+[type="radio"] {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+[type="radio"]+label {
+  position: relative;
+  padding: 0px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #616161;
+}
+
+[type="radio"]+label span {
+  display: initial;
+}
+
+[type="radio"]+label::before {
+  background-color: $colorRubinate;
+  background-color: #fff;
+  border: 1px solid $colorDark;
+  box-sizing: content-box;
+  content: "";
+  color: $colorDark;
+  margin-right: 10px;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  vertical-align: middle;
+  -webkit-transition: background-color 100ms linear;
+  transition: background-color 100ms linear;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+}
+
+[type="radio"]+label::before,
+[type="radio"]+label::after {
+  border-radius: 50%;
+}
+
+[type="radio"]:checked+label::before {
+  -webkit-animation: none;
+  animation: none;
+  background-color: $colorWhite;
+  border: 5px solid $colorRubinate;
+  width: 4px;
+  height: 4px;
+  min-width: 4px;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+}
+
+[type="radio"]:checked+label::after {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  display: none;
+  border: 3px solid $colorRubinate;
+}
+
+.label-radio>label:hover:before {
+  border-color: $colorRubinate;
+}
+
+.label-radio>label:hover {
+  cursor: pointer;
+}
+
+/* end radio-buttons */

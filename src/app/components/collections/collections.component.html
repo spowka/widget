@@ -1,0 +1,18 @@
+<div class="collections container wg-flex wg-flex-column">
+  <div class="collections__header">
+    <app-header-section [isVisibleBtn]="false" [title]="title"></app-header-section>
+  </div>
+  <div class="collections__body" heightHandler>
+   <ng-container *ngIf="isLoading; else isActive">
+      <div class="collections__card placeholder-animate" *ngFor="let loaderItem of loaderItems"></div>
+   </ng-container>
+   <ng-template #isActive>
+       <div class="collections__card" *ngFor="let collection of collections" (click)="goToCollections(collection.id)">
+         <img [src]="collection.photo" [lazyLoad]="collection.photo" [offset]="elHeight" [defaultImage]="'../../../assets/icon/loading-photo-collections.gif'" [alt]="collection.title">
+         <div class="gradient-bar wg-flex wg-flex-align-center wg-flex-start">
+           <h2 class="title white">{{collection.title}}</h2>
+         </div>
+       </div>
+    </ng-template>    
+  </div>
+</div>

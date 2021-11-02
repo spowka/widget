@@ -1,0 +1,67 @@
+<div class="card container wg-flex wg-flex-column">
+  <div class="card__header">
+    <app-header-section [isVisibleBtn]="true" [title]="title"></app-header-section>
+  </div>
+  <ng-container *ngIf="isLoading; else isActive">
+    <div class="card__body wg-flex wg-flex-btw">
+      <div class="card__body__img-section placeholder-animate"></div>
+      <div class="card__body__description-section animate wg-flex wg-flex-start wg-flex-column">
+        <h2 class="title bold placeholder-animate"></h2>
+        <p class="text description placeholder-animate"></p>
+        <div class="info-section wg-flex wg-flex-column">
+           <div class="wrapper placeholder-animate"></div>
+           <div class="cart-section placeholder-animate"></div>           
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #isActive>
+    <div class="card__body wg-flex wg-flex-btw">
+      <div class="card__body__img-section" heightHandler>
+        <div class="card" [@rollCard]="rolledCard === activeCards.backCard ? 'back': 'front'"
+          [class.active]="activeCard === activeCards.frontCard">
+          <img [src]="card.photo" alt="frontside.jpg" [lazyLoad]="card.photo" [offset]="elHeight" defaultImage="../../../assets/icon/loading-photo-card.gif">
+        </div>
+        <div class="card" [@rollCard]="rolledCard === activeCards.backCard ? 'front': 'back'"
+          [class.active]="activeCard === activeCards.backCard">
+          <img [src]="card.backPhoto" alt="backside.jpg" [lazyLoad]="card.backPhoto" [offset]="elHeight" defaultImage="../../../assets/icon/loading-photo-card.gif">
+        </div>
+        <div class="card-reload" (click)="reloadCard()">
+          <img src="../../../assets/icon/reload.svg" alt="reload.svg" />
+        </div>
+      </div>
+      <div class="card__body__description-section wg-flex wg-flex-start wg-flex-column">
+        <h2 class="title bold">Грубец Шимон</h2>
+        <p class="text description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate esse laboriosam
+          voluptatum iste
+          quidem rem fuga! Accusantium consequatur autem nemo minima veniam necessitatibus perferendis, omnis, vero
+          voluptatem inventore eos totam sit beatae dignissimos, officiis debitis quia delectus incidunt earum iusto
+          natus? Perspiciatis doloribus minima qui consequuntur omnis suscipit, ea iure eveniet expedita unde voluptas
+          quasi mollitia!</p>
+        <div class="info-section wg-flex wg-flex-column">
+          <div class="wrapper">
+            <p class="text"><span class="text bold">Тираж:</span> {{card.circulation}} шт.</p>
+            <p class="text"><span class="text bold">Остаток:</span> {{card.instock}} шт.</p>
+            <p class="text"><span class="text bold">Добавлена:</span> 01.01.2020 </p>
+          </div>
+
+          <div class="cart-section wg-flex wg-flex-btw wg-flex-center">
+            <p class="text"><span class="text bold">Стоимость:</span> {{cardPrice}} ₽.</p>
+            <div class="count-group">
+              <div class="minus" (click)="countMinus()" [class.disabled]="count === 1">
+                <img src="../../../assets/icon/minus.svg" alt="minus.svg">
+              </div>
+              <div class="form-group-counter">
+                <input class="form-control-counter" onlyNumbers [(ngModel)]="count" (blur)="getOld($event)" (ngModelChange)="getCounterChange()"/>
+              </div>
+              <div class="plus" (click)="countPlus()">
+                <img src="../../../assets/icon/plus.svg" alt="plus.svg">
+              </div>
+            </div>
+            <button class="btn btn-rubinate" (click)="addToCart()">В корзину</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

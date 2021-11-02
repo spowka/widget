@@ -1,0 +1,73 @@
+@import "_variables";
+
+// SCSS maps with sizes and sides:
+
+$wg-sizes: (
+   "2": $wg-spacing-2,
+   "4": $wg-spacing-4,
+   "7": $wg-spacing-7,
+   "8": $wg-spacing-8,
+   "10": $wg-spacing-10,
+   "12": $wg-spacing-12,
+   "15": $wg-spacing-15,
+   "16": $wg-spacing-16,
+   "18": $wg-spacing-18,
+   "20": $wg-spacing-20,
+   "24": $wg-spacing-24,
+   "25": $wg-spacing-25,
+   "28": $wg-spacing-28,
+   "32": $wg-spacing-32,
+   "40": $wg-spacing-40,
+   "48": $wg-spacing-48,
+   "64": $wg-spacing-64,
+);
+$sides: (top, right, bottom, left, all, x, y);
+
+/* SCSS loop that creates margin and padding classes
+   margin or padding
+   t, r, b, l, x, y - top, right, bottom, left, x-axis, y-axis to apply margin or padding (leave blank for all sides)
+   12, 16, 24, 32, 40 - for size in pixels
+   Example format for margin-top: 12px use wg-margin-t-12
+ */
+
+@each $prefix, $value in $wg-sizes {
+   @each $side in $sides {
+      @if $side == "all" {
+         .wg-margin-#{$prefix} {
+            margin: #{$value};
+         }
+
+         .wg-padding-#{$prefix} {
+            padding: #{$value};
+         }
+      } @else if $side == "x" {
+         .wg-margin-x-#{$prefix} {
+            margin-left: #{$value};
+            margin-right: #{$value};
+         }
+
+         .wg-padding-x-#{$prefix} {
+            padding-left: #{$value};
+            padding-right: #{$value};
+         }
+      } @else if $side == "y" {
+         .wg-margin-y-#{$prefix} {
+            margin-top: #{$value};
+            margin-bottom: #{$value};
+         }
+
+         .wg-padding-y-#{$prefix} {
+            padding-top: #{$value};
+            padding-bottom: #{$value};
+         }
+      } @else {
+         .wg-margin-#{str-slice($side, 0, 1)}-#{$prefix} {
+            margin-#{$side}: #{$value};
+         }
+
+         .wg-padding-#{str-slice($side, 0, 1)}-#{$prefix} {
+            padding-#{$side}: #{$value};
+         }
+      }
+   }
+}

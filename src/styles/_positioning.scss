@@ -1,0 +1,48 @@
+.wg {
+
+&-flex {
+   display: flex;
+}
+
+&-flex-wrap {
+   flex-wrap: wrap;
+}
+
+&-flex-center {
+   justify-content: center;
+   align-items: center;
+}
+
+&-flex-align-center {
+   align-items: center;
+}
+
+&-flex-besline {
+   align-items: baseline;
+}
+
+&-flex-btw {
+   justify-content: space-between;
+}
+
+&-flex-end {
+   justify-content: flex-end;
+}
+
+&-flex-start {
+   justify-content: flex-start;
+}
+
+&-flex-align-end {
+   align-items: flex-end;
+}
+
+&-flex-column {
+   flex-direction: column;
+}
+
+&-flex-column-center {
+   align-items: center;
+}
+
+}

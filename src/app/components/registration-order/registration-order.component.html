@@ -1,0 +1,109 @@
+<div class="registration container wg-flex wg-flex-column">
+  <div class="registration">
+    <app-header-section [isVisibleBtn]="true" [title]="title"></app-header-section>
+  </div>
+  <div class="registration__body wg-flex wg-flex-column">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="registration__body__contact-form">
+
+      <h2 class="text">Ваши контактные данные</h2>
+
+      <div class="contact-form-section wg-flex wg-flex-column">
+        <div class="contact-form-section__inner wg-flex wg-flex-btw">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="name" placeholder="Имя">
+            <err-msg class="error-message" [control]="contactForm.controls['name']" [withPatternControlName]="'name'">
+            </err-msg>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="email" placeholder="E-mail">
+            <err-msg class="error-message" [control]="contactForm.controls['email']" [withPatternControlName]="'email'">
+            </err-msg>
+          </div>
+        </div>
+        <div class="contact-form-section__inner wg-flex wg-flex-btw">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="lastname" placeholder="Фамилия">
+            <err-msg class="error-message" [control]="contactForm.controls['lastname']"
+              [withPatternControlName]="'lastname'"></err-msg>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="phone" onlyNumbers placeholder="Телефон">
+            <err-msg class="error-message" [control]="contactForm.controls['phone']" [withPatternControlName]="'phone'">
+            </err-msg>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-section wg-flex">
+        <h2 class="text">Выберите способ доставки:</h2>
+        <div class="wg-flex tab-section-inner">
+          <button class="btn tabs" [class.active]="selectedTab === 'Самовывоз'"
+            (click)="changeTabs('Самовывоз')">Самовывоз</button>
+          <button class="btn tabs" [class.active]="selectedTab === 'Доставка'"
+            (click)="changeTabs('Доставка')">Доставка</button>
+        </div>
+      </div>
+
+      <div class="selected-tab-section wg-flex wg-flex-btw wg-flex-align-end"
+        [class.order-tab-active]="selectedTab === 'Доставка'">
+        <div class="selected-tab-section-inner wg-flex wg-flex-btw" [ngSwitch]="selectedTab">
+          <div class="pickup-section wg-flex" *ngSwitchCase="'Самовывоз'">
+            <div class="address-form-section wg-flex wg-flex-column">
+              <div class="radio-group label-radio wg-flex" *ngFor="let address of addresses">
+                <input type="radio" [id]="address.id" [value]="address.id" formControlName="address" />
+                <label [for]="address.id" class="wg-flex">
+                  <div class="wg-flex wg-flex-column">
+                    <p class="small-subtitle normal">{{address.title}}</p>
+                    <p class="small-subtitle thin">{{address.subtitle}}</p>
+                    <p class="small-subtitle thin">{{address.phone}}</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="map-section">
+              <img src="../../../assets/img/map.png" alt="map.png" />
+            </div>
+          </div>
+          <div class="order-section wg-flex wg-flex-column" formGroupName="orderForm" *ngSwitchCase="'Доставка'">
+            <h2 class="text">Укажите адрес доставки:</h2>
+
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="region" placeholder="Край / область">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="town" placeholder="Город">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="postcode" placeholder="Почтовый индекс">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="street" placeholder="Улица">
+            </div>
+            <div class="order-section__inner wg-flex wg-flex-btw">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="house" onlyNumbers maxlength="5"
+                  placeholder="Дом">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="frame" onlyNumbers maxlength="5"
+                  placeholder="Корпус">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="apartment" maxlength="5" onlyNumbers
+                  placeholder="Квартира">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pay-order-section wg-flex wg-flex-column"
+          [ngClass]="{'pickup': selectedTab === 'Самовывоз','order':selectedTab === 'Доставка'}">
+          <div class="wg-flex wg-flex-btw wg-flex-besline">
+            <p class="text bold">Оплата заказа</p>
+          </div>
+          <button type="submit" class="btn btn-rubinate" [disabled]="contactForm.invalid">Оплатить {{total}} ₽ </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
