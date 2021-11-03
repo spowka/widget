@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, UrlSegment } from '@angular/router';
-import { Card } from 'src/app/shered/models/widget';
-import { WidgetService } from 'src/app/services/widget.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { rollCardAnimation } from 'src/app/shered/animations/animations';
 import { takeUntil } from 'rxjs/operators';
+
+import { rollCardAnimation } from 'src/app/shered/animations/animations';
+import { WidgetService } from 'services/widget.service';
+import { Card } from 'src/app/shered/models/widget';
 
 enum ActiveCardEnum {
    frontCard = 'front',
    backCard = 'back'
 }
-
 @Component({
    selector: 'app-card',
    templateUrl: './card.component.html',

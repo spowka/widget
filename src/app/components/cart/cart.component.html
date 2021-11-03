@@ -5,14 +5,14 @@
   <ng-container *ngIf="isLoading; else isActive">
     <div class="cart__body wg-flex wg-flex-btw">
       <div class="cart__body__table-section">
-         <table class="table">
+         <table class="table animate">
             <thead>
               <tr>
                <th class="table-title placeholder-animate"></th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let loaderItem of loaderItems" class="table-body">
+              <tr *ngFor="let loaderItem of loaderItems | slice:3" class="table-body">
                <td class="table-wrapper placeholder-animate"></td>
               </tr>
             </tbody>
@@ -47,13 +47,13 @@
               <td class="table-wrapper">
                 <div class="count-group">
                   <div class="minus" (click)="countMinus(card.id)" [class.disabled]="card.selectedCount === 1">
-                    <img src="../../../assets/icon/minus.svg" alt="minus.svg">
+                    <img src="assets/icon/minus.svg" alt="minus.svg">
                   </div>
                   <div class="form-group-counter">
                     <input class="form-control-counter" onlyNumbers [(ngModel)]="card.selectedCount" />
                   </div>
                   <div class="plus" (click)="countPlus(card.id)">
-                    <img src="../../../assets/icon/plus.svg" alt="plus.svg">
+                    <img src="assets/icon/plus.svg" alt="plus.svg">
                   </div>
                 </div>
               </td>
@@ -76,7 +76,7 @@
               </td>
               <td class="table-wrapper">
                 <figure>
-                  <img (click)="delete(card.id)" src="../../../assets/icon/close.svg" alt="delete.svg" />
+                  <img (click)="delete(card.id)" src="assets/icon/close.svg" alt="delete.svg" />
                 </figure>
               </td>
             </tr>

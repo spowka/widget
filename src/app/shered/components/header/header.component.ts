@@ -52,7 +52,9 @@ export class HeaderComponent implements OnInit {
    };
 
    goToCart() {
-      this.router.navigate(['cart']);
+      if (this.isCartFull) {
+         this.router.navigate(['cart']);
+      }
    }
 
    goToNotification() {

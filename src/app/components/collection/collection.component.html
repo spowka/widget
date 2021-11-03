@@ -10,7 +10,7 @@
     <div class="collection__card wg-flex wg-flex-column" [class.disabled]="card.isDisable" *ngFor="let card of collection?.cards" (click)="goToCard(card)">
       <div class="collection__card__disabled" *ngIf="card.isDisable"></div>
       <div class="collection__card__img-section">
-        <img [src]="card.photo" [lazyLoad]="card.photo" [offset]="elHeight" defaultImage="../../../assets/icon/loading-photo-collection.gif" [alt]="card.title">
+        <img [src]="card.photo" [lazyLoad]="card.photo" [offset]="elHeight" defaultImage="assets/icon/loading-photo-collection.gif" [alt]="card.title">
         <div class="sale wg-flex wg-flex-center" *ngIf="card.isSale > 0">
           {{card.isSalePercent}}%
         </div>

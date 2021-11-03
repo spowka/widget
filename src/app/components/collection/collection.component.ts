@@ -1,9 +1,10 @@
-import { WidgetService } from './../../services/widget.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Card, Collection } from 'src/app/shered/models/widget';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { Card, Collection } from 'src/app/shered/models/widget';
+import { WidgetService } from 'services/widget.service';
 
 @Component({
    selector: 'app-collection',

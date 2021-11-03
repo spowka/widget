@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { WidgetService } from 'src/app/services/widget.service';
-import { fadeOut } from 'src/app/shered/animations/animations';
-
+import { WidgetService } from 'services/widget.service';
 @Component({
    selector: 'app-cart',
    templateUrl: './cart.component.html',
@@ -15,7 +13,7 @@ export class CartComponent implements OnInit, OnDestroy {
    subs$ = new Subject();
    title = "Корзина";
    // isLoading: boolean;
-   isLoading: true;
+   isLoading = false;
    loaderItems: number[];
    cart: any[];
    isNotification = false;
@@ -47,8 +45,6 @@ export class CartComponent implements OnInit, OnDestroy {
       // this.widgetService.cartData$.pipe(takeUntil(this.subs$)).subscribe(res => {
       //    this.cart = res;
       // });
-
-      console.log('------------',this.isLoading)
 
       this.cart = [
          {

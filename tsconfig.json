@@ -22,8 +22,8 @@
       "dom"
     ],
     "paths": {
-       "@icon/*":["./src/assets/icon/*"],
-       "@img/*":["./src/assets/img/*"]
+      // "for shorted paths"
+      "services/*":["src/app/services/*"]
     }
   },
   "angularCompilerOptions": {

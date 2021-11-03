@@ -1,4 +1,4 @@
-@import "../../../styles/_variables.scss";
+@import "variables.scss";
 
 .card {
    &__body {
@@ -97,6 +97,10 @@
             .btn-rubinate {
                width: 120px;
                height: 30px;
+            }
+
+            p.text {
+               width: 145px;
             }
          }
       }

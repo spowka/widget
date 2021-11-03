@@ -1,9 +1,10 @@
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { WidgetService } from './../../services/widget.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Collection } from 'src/app/shered/models/widget';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { WidgetService } from 'services/widget.service';
+import { Collection } from 'src/app/shered/models/widget';
 
 @Component({
    selector: 'app-collections',
