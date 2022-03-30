@@ -1,40 +1,41 @@
 <div class="collection container wg-flex wg-flex-column">
   <div class="collection__header">
-    <app-header-section [isVisibleBtn]="true" [title]="title"></app-header-section>
+    <app-header-section [isVisibleBtn]="true" [title]="collectionTitle"></app-header-section>
   </div>
   <div class="collection__body" [class.isCenter]="isCenter" heightHandler>
-   <ng-container *ngIf="isLoading; else isActive">
-      <div class="collection__card placeholder-animate" *ngFor="let loaderItem of loaderItems | slice:3"></div>
+   <ng-container *ngIf="(isLoading$ | async); else isActive">
+      <div class="collection__card placeholder-animate" *ngFor="let loaderItem of (loaderItems$ | async) | slice:3"></div>
    </ng-container>
    <ng-template #isActive>
-    <div class="collection__card wg-flex wg-flex-column" [class.disabled]="card.isDisable" *ngFor="let card of collection?.cards" (click)="goToCard(card)">
-      <div class="collection__card__disabled" *ngIf="card.isDisable"></div>
+    <div class="collection__card wg-flex wg-flex-column" *ngFor="let card of collection?.cards" (click)="goToCard(card)">
+      <div class="collection__card__disabled" *ngIf="!card.printCountLeft"></div>
       <div class="collection__card__img-section">
-        <img [src]="card.photo" [lazyLoad]="card.photo" [offset]="elHeight" defaultImage="assets/icon/loading-photo-collection.gif" [alt]="card.title">
-        <div class="sale wg-flex wg-flex-center" *ngIf="card.isSale > 0">
-          {{card.isSalePercent}}%
-        </div>
+        <img [src]="card.previewImage" [lazyLoad]="card.previewImage" [offset]="elHeight" defaultImage="assets/icon/loading-photo-collection.gif" [alt]="card.title">
+        <!-- <div class="sale wg-flex wg-flex-center" *ngIf="card.isSale > 0">
+          {{ card.isSalePercent }}%
+        </div> -->
       </div>
       <div class="collection__card__body-section wg-flex wg-flex-start wg-flex-column">
-        <h2 class="subtitle">{{card.title}}</h2>
-        <p class="text">Тираж: {{card.circulation}} шт.</p>
-        <p class="text">Осталось: {{card.instock}} шт.</p>
+        <h2 class="subtitle">{{ card.title }}</h2>
+        <p class="text">Тираж: {{ card.printCount }} шт.</p>
+        <p class="text">Осталось: {{ card.printCountLeft }} шт.</p>
         <div class="wg-flex wg-flex-start wg-flex-besline">
-          <ng-container *ngIf="card.instock === 0; else isSale">
+          <ng-container *ngIf="card.printCountLeft === 0; else isSale">
             <h2 class="subtitle ended">Закончились</h2>
           </ng-container>
           <ng-template #isSale>
-            <ng-container *ngIf="card.isSalePercent && card.isSale; else default">
+            <ng-container *ngIf="false; else default">
+            <!-- <ng-container *ngIf="card.isSalePercent && card.isSale; else default"> -->
                <p class="text old-price">
-                  {{card.currnetPrice}} ₽
+                  {{ card.price }} ₽
                </p>
                <p class="text new-price">
-                  {{card.isSale}} ₽
+                  {{ card.printCount }} ₽
                </p>
             </ng-container>
           </ng-template>
           <ng-template #default>
-            <h2 class="text bold">{{card.currnetPrice}} ₽</h2>
+            <h2 class="text bold">{{ card.price }} ₽</h2>
           </ng-template>
         </div>
       </div>

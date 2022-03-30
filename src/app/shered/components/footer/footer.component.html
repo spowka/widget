@@ -4,11 +4,8 @@
       <img src="assets/icon/woowcard.svg" alt="Woowcard">
     </figure>
     <ul class="site-footer__info wg-flex wg-flex-center">
-      <li class="wg-flex wg-flex-center">
-        <a class="location">Поддержка</a>
-      </li>
-      <li class="wg-flex wg-flex-center">
-        <a class="location">Оферта и дополнительная информация</a>
+      <li class="wg-flex wg-flex-center" *ngFor="let info of (infoPageDetails$ | async)">
+        <a class="location">{{ info.title }}</a>
       </li>
     </ul>
   </div>

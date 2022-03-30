@@ -3,7 +3,7 @@
     <app-header-section [isVisibleBtn]="true" [title]="title"></app-header-section>
   </div>
   <div class="registration__body wg-flex wg-flex-column">
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="registration__body__contact-form">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit($event)" class="registration__body__contact-form">
 
       <h2 class="text">Ваши контактные данные</h2>
 
@@ -37,25 +37,25 @@
       <div class="tab-section wg-flex">
         <h2 class="text">Выберите способ доставки:</h2>
         <div class="wg-flex tab-section-inner">
-          <button class="btn tabs" [class.active]="selectedTab === 'Самовывоз'"
+          <button class="btn tabs" type="button" [class.active]="selectedTab === 'Самовывоз'"
             (click)="changeTabs('Самовывоз')">Самовывоз</button>
-          <button class="btn tabs" [class.active]="selectedTab === 'Доставка'"
+          <button class="btn tabs" type="button" [class.active]="selectedTab === 'Доставка'"
             (click)="changeTabs('Доставка')">Доставка</button>
         </div>
       </div>
 
-      <div class="selected-tab-section wg-flex wg-flex-btw wg-flex-align-end"
+      <div *ngIf="(pickUpPointsList$ | async) as pickUpPointsList" class="selected-tab-section wg-flex wg-flex-btw wg-flex-align-end"
         [class.order-tab-active]="selectedTab === 'Доставка'">
         <div class="selected-tab-section-inner wg-flex wg-flex-btw" [ngSwitch]="selectedTab">
           <div class="pickup-section wg-flex" *ngSwitchCase="'Самовывоз'">
             <div class="address-form-section wg-flex wg-flex-column">
-              <div class="radio-group label-radio wg-flex" *ngFor="let address of addresses">
-                <input type="radio" [id]="address.id" [value]="address.id" formControlName="address" />
-                <label [for]="address.id" class="wg-flex">
+              <div class="radio-group label-radio wg-flex" *ngFor="let pickPoint of pickUpPointsList">
+                <input type="radio" [id]="pickPoint.id" [value]="pickPoint.id" formControlName="address" />
+                <label [for]="pickPoint.id" class="wg-flex">
                   <div class="wg-flex wg-flex-column">
-                    <p class="small-subtitle normal">{{address.title}}</p>
-                    <p class="small-subtitle thin">{{address.subtitle}}</p>
-                    <p class="small-subtitle thin">{{address.phone}}</p>
+                    <p class="small-subtitle normal">{{ pickPoint.name }}</p>
+                    <p class="small-subtitle thin">{{ pickPoint.address }}</p>
+                    <p class="small-subtitle thin">{{ pickPoint.phones }}</p>
                   </div>
                 </label>
               </div>
@@ -101,7 +101,7 @@
           <div class="wg-flex wg-flex-btw wg-flex-besline">
             <p class="text bold">Оплата заказа</p>
           </div>
-          <button type="submit" class="btn btn-rubinate" [disabled]="contactForm.invalid">Оплатить {{total}} ₽ </button>
+          <button type="submit" class="btn btn-rubinate" [disabled]="contactForm?.invalid">Оплатить {{ totalPrice }} ₽ </button>
         </div>
       </div>
     </form>

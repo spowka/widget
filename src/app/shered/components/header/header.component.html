@@ -3,31 +3,31 @@
     <figure class="site-header__logo wg-margin-r-15" [routerLink]="['collections']">
       <img src="assets/icon/logo-avangard.svg" alt="Avangard">
     </figure>
-    <div class="site-header__info wg-flex wg-flex-center wg-flex-btw" [class.isCartEmpty]="!isCartFull">
-      <div class="site-header__cart-info wg-flex wg-flex-center">
-        <figure class="cart-logo wg-margin-r-10" [class.clickble]="isCartFull" (click)="goToCart()">
+    <div class="site-header__info wg-flex wg-flex-center wg-flex-btw" [class.isCartEmpty]="!(isCartFull$ | async)">
+      <div class="site-header__cart-info wg-flex wg-flex-center" [class.clickable]="(isCartFull$ | async)" >
+        <figure class="cart-logo wg-margin-r-10" (click)="goToCart()">
           <img src="assets/icon/shopping-cart.svg" alt="Cart">
         </figure>
-        <ng-container *ngIf="!isCartFull; else isCartSum">
+        <ng-container *ngIf="!(isCartFull$ | async)">
           <div class="wg-flex wg-flex-column">
             <p class="cart">В корзине</p>
             <strong class="cart-sum">Пусто</strong>
           </div>
         </ng-container>
-        <ng-template #isCartSum>
-          <div class="wg-flex wg-flex-column clickble" (click)="goToCart()">
+        <ng-container *ngIf="(totalPrice$ | async) as price">
+          <div class="wg-flex wg-flex-column" (click)="goToCart()">
             <p class="cart">Сумма</p>
-            <strong class="cart-sum">1800 ₽</strong>
+            <strong class="cart-sum">{{ price }} ₽</strong>
           </div>
-        </ng-template>
+        </ng-container>
       </div>
 
-      <div class="site-header__time-info wg-flex wg-flex-center wg-margin-l-10" *ngIf="isCartFull" (click)="goToNotification()">
+      <div class="site-header__time-info wg-flex wg-flex-center wg-margin-l-10" *ngIf="(isCartFull$ | async)" (click)="goToNotification()">
         <figure class="info-logo wg-margin-r-8 wg-margin-t-4">
           <img src="assets/icon/help.svg" alt="help.svg" />
         </figure>
         <div class="timer">
-            {{displayTimer}}
+            {{ displayTimer }}
         </div>
       </div>
     </div>

@@ -2,28 +2,28 @@
   <div class="cart__header">
     <app-header-section [isVisibleBtn]="true" [title]="title"></app-header-section>
   </div>
-  <ng-container *ngIf="isLoading; else isActive">
+  <ng-container *ngIf="isLoading$ | async; else isActive">
     <div class="cart__body wg-flex wg-flex-btw">
       <div class="cart__body__table-section">
-         <table class="table animate">
-            <thead>
-              <tr>
-               <th class="table-title placeholder-animate"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let loaderItem of loaderItems | slice:3" class="table-body">
-               <td class="table-wrapper placeholder-animate"></td>
-              </tr>
-            </tbody>
-          </table>
+        <table class="table animate">
+          <thead>
+            <tr>
+              <th class="table-title placeholder-animate"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let loaderItem of loaderItems$ | async | slice:3" class="table-body">
+              <td class="table-wrapper placeholder-animate"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="cart__body__info-section wg-flex wg-flex-column wg-flex-column-center">
-         <div class="promo-code wg-flex wg-flex-column placeholder-animate">
-         </div>
-         <div class="total wg-flex wg-flex-column placeholder-animate">
-         </div>
-       </div>
+        <div class="promo-code wg-flex wg-flex-column placeholder-animate">
+        </div>
+        <div class="total wg-flex wg-flex-column placeholder-animate">
+        </div>
+      </div>
     </div>
   </ng-container>
   <ng-template #isActive>
@@ -40,50 +40,54 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let card of cart" class="table-body">
+            <tr *ngFor="let cart of cartData?.rows" class="table-body">
               <td class="table-wrapper">
-                {{card.title}}
+                {{ cart.title }}
               </td>
               <td class="table-wrapper">
                 <div class="count-group">
-                  <div class="minus" (click)="countMinus(card.id)" [class.disabled]="card.selectedCount === 1">
+                  <button class="minus" (click)="onCountUpdate(cart, 'minus')" [disabled]="(cart.rowQuantity === 1)">
                     <img src="assets/icon/minus.svg" alt="minus.svg">
-                  </div>
+                  </button>
                   <div class="form-group-counter">
-                    <input class="form-control-counter" onlyNumbers [(ngModel)]="card.selectedCount" />
+                    <input [disabled]="cartLoading$ | async" class="form-control-counter" onlyNumbers
+                      [value]="cart.rowQuantity" />
                   </div>
-                  <div class="plus" (click)="countPlus(card.id)">
+                  <button class="plus" (click)="onCountUpdate(cart, 'plus')" [disabled]="!cart.printCountLeft">
                     <img src="assets/icon/plus.svg" alt="plus.svg">
-                  </div>
+                  </button>
                 </div>
               </td>
               <td class="table-wrapper">
-                <ng-container *ngIf="card.isSale && card.isSalePercent; else default">
+                <!-- <ng-container *ngIf="card.isSale && card.isSalePercent; else default">
                   <div class="text green">
-                    {{card.isSale}} ₽
+                    {{ card.isSale }} ₽
                     <p class="text new-sale-small green">
-                      ({{card.isSalePercent}} %)
+                      ({{ card.isSalePercent }} %)
                     </p>
                   </div>
-                </ng-container>
-                <ng-template #default>
-                  <p class="text">{{card.currnetPrice}} ₽</p>
-                </ng-template>
+                </ng-container> -->
+                <!-- <ng-template #default>
+                  <p class="text">{{ card.detailRows[0].price }} ₽</p>
+                </ng-template> -->
+                <p class="text">{{ cart.detailRows[0].price }} ₽</p>
               </td>
               <td class="table-wrapper">
-                <p class="text" [ngClass]="{'green': card.isSale && card.isSalePercent}">
-                  {{card.currnetPrice}} ₽</p>
+                <!-- <p class="text" [ngClass]="{'green': card.isSale && card.isSalePercent}"> -->
+                <p class="text">
+                  {{ cart.rowPrice }} ₽</p>
               </td>
               <td class="table-wrapper">
                 <figure>
-                  <img (click)="delete(card.id)" src="assets/icon/close.svg" alt="delete.svg" />
+                  <img (click)="onDeleteItem(cart)" src="assets/icon/close.svg" alt="delete.svg" />
                 </figure>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="cart__body__info-section wg-flex wg-flex-column wg-flex-column-center">
+      <div *ngIf="(siteKey$ | async) as siteKey"
+        class="cart__body__info-section wg-flex wg-flex-column wg-flex-column-center">
         <div class="promo-code wg-flex wg-flex-column">
           <p class="small-subtitle">Введите промокод на скидку</p>
           <div [class.visibility-hidden]="!isNotification">
@@ -95,22 +99,31 @@
             </ng-template>
           </div>
           <div class="form-group">
-            <input type="text" [(ngModel)]="promocode" class="form-control" placeholder="AK7JK73" />
+            <input type="text" [(ngModel)]="promocode" class="form-control" placeholder="Введите промокод"
+              [readonly]="!(isCartFull$ | async)" />
           </div>
-          <button (click)="applyCode()" class="btn btn-dark">Применить код</button>
+          <button class="btn btn-dark" [disabled]="!(isCartFull$ | async)">Применить код</button>
         </div>
         <div class="total wg-flex wg-flex-column">
           <div class="wg-flex wg-flex-btw wg-flex-besline">
             <p class="text bold">Итого:</p>
             <ng-container *ngIf="!isNotification; else isSale">
-              <p class="text">{{total}} ₽</p>
+              <p class="text">{{ cartData?.totalPrice }} ₽</p>
             </ng-container>
             <ng-template #isSale>
-              <p><span class="text old-price">{{total}} ₽</span><span class="text green">{{totalWithPromo}} ₽</span></p>
+              <p>
+                <span class="text old-price">{{ cartData?.totalPrice }} ₽</span>
+                <span class="text green">{{ totalWithPromo }} ₽</span></p>
             </ng-template>
           </div>
-          <button (click)="applyOrder()" class="btn btn-rubinate">Оформить заказ</button>
+          <button (click)="applyOrder()" class="btn btn-rubinate" [disabled]="!(isCartFull$ | async)">Оформить
+            заказ</button>
         </div>
+        <re-captcha #captchaRef="reCaptcha" (resolved)="$event && resolved($event)" [siteKey]="siteKey"
+          size="invisible"></re-captcha>
+        <!-- <re-captcha #captchaRefIncrease="reCaptcha" (resolved)="$event && resolved($event)" [siteKey]="siteKey" size="invisible"></re-captcha>
+        <re-captcha #captchaRefDecrease="reCaptcha" (resolved)="$event && resolved($event)" [siteKey]="siteKey" size="invisible"></re-captcha>
+        <re-captcha #captchaRefDelete="reCaptcha" (resolved)="$event && resolved($event)" [siteKey]="siteKey" size="invisible"></re-captcha> -->
       </div>
     </div>
   </ng-template>

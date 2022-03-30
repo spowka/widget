@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
-   title = "К сожалению, карточки не могут лежать в корзине очень долго";
+  title = "К сожалению, карточки не могут лежать в корзине очень долго";
 
   constructor() { }
 

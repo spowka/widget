@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Card, Collection } from 'src/app/shered/models/widget';
-import { WidgetService } from 'services/widget.service';
+import { WidgetSetCard, WidgetSet } from 'src/app/shered/models/widget';
+import { WidgetService } from 'services/widget/widget.service';
 
 @Component({
    selector: 'app-collection',
@@ -12,41 +13,47 @@ import { WidgetService } from 'services/widget.service';
    styleUrls: ['./collection.component.scss']
 })
 export class CollectionComponent implements OnInit, OnDestroy {
-   unSub$ = new Subject();
-   title = "Имя Коллекции";
-   elHeight: number;
-   isLoading: boolean;
-   loaderItems: number[];
-   collection: Collection;
+   private unsubscribe$: Subject<void> = new Subject();
+
+   public isLoading$: Observable<boolean>;
+   public loaderItems$: Observable<number[]>;
+
+   public collection: WidgetSet;
+
+   public collectionTitle: string;
+   public id: string | null;
+   public elHeight: number;
 
    constructor(
       private router: Router,
       private route: ActivatedRoute,
       private widgetService: WidgetService
-   ) { }
+   ) {
+      this.isLoading$ = this.widgetService.isLoading$;
+      this.loaderItems$ = this.widgetService.loaderItems$;
+    }
 
    ngOnInit() {
+      this.id = this.route.snapshot.paramMap.get('id');
+
       this.widgetService.getLoadingItems();
+      this.widgetService.getCollections();
 
-      this.widgetService.isLoading$.pipe(takeUntil(this.unSub$)).subscribe((isLoading: boolean) => {
-         this.isLoading = isLoading;
-      });
-      
-      this.widgetService.loaderItems$.pipe(takeUntil(this.unSub$)).subscribe((items: number[]) => {
-         this.loaderItems = items;
-      });
-
-      this.widgetService.elHeight$.pipe(takeUntil(this.unSub$)).subscribe((elHeight:number) => {
+      this.widgetService.elHeight$.pipe(takeUntil(this.unsubscribe$)).subscribe((elHeight:number) => {
          this.elHeight = elHeight;
-      });
-
-      this.route.params.subscribe((params: Params) => {
-         this.widgetService.getCollectionById(+params.id);
       })
 
-      this.widgetService.selectedCollection$.pipe(takeUntil(this.unSub$)).subscribe((collection: Collection) => {
-         this.collection = collection;
-      })
+
+      this.widgetService.collections$
+         .pipe(takeUntil(this.unsubscribe$))
+         .subscribe(data => {
+             data.map(col => {
+               if(col.id === this.id) {
+                  this.collectionTitle = col.name;
+                  this.collection = col;
+               }
+             });
+         })
    }
 
    get isCenter() {
@@ -57,14 +64,12 @@ export class CollectionComponent implements OnInit, OnDestroy {
       }
    }
 
-   goToCard(card: Card) {
-      if (!card.isDisable) {
-         this.router.navigate(['collections/' + this.collection.id + '/card', card.id]);
-      }
+   goToCard(card: WidgetSetCard) {
+      this.router.navigate(['collections/' + this.collection.id + '/card', card.id]);
    }
 
    ngOnDestroy() {
-      this.unSub$.next();
-      this.unSub$.complete();
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
    }
 }

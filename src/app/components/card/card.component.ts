@@ -1,11 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { RecaptchaComponent } from 'ng-recaptcha';
+
 import { rollCardAnimation } from 'src/app/shered/animations/animations';
-import { WidgetService } from 'services/widget.service';
-import { Card } from 'src/app/shered/models/widget';
+import { WidgetSetCard } from 'src/app/shered/models/widget';
+import { AddRowRequest } from 'src/app/shered/models/order';
+import { AuthService } from 'services/auth/auth.service';
+import { WidgetService } from 'services/widget/widget.service';
 
 enum ActiveCardEnum {
    frontCard = 'front',
@@ -18,69 +23,65 @@ enum ActiveCardEnum {
    animations: [rollCardAnimation],
 })
 export class CardComponent implements OnInit, OnDestroy {
-   unSub$ = new Subject();
-   title = "Имя Коллекции";
-   elHeight: number;
-   isLoading: boolean;
-   card: Card;
-   activeCards = ActiveCardEnum;
-   activeCard: ActiveCardEnum = this.activeCards.frontCard;
-   rolledCard: ActiveCardEnum = this.activeCards.frontCard;
-   count = 1;
-   cardPrice: number;
+   @ViewChild('captchaRef') captchaRef: RecaptchaComponent;
 
-   private collectionId: number;
-   private cardId: number;
+   private unsubscribe$: Subject<void> = new Subject();
+
+   public siteKey$: Observable<string>;
+   public loading$: Observable<boolean>;
+   
+   public   card: WidgetSetCard;
+   public  elHeight: number;
+   public collectionTitle: string;
+   public captchaResponse: string;
+   public  cardId: string | null;
+   public collectionId: string | null;
+   
+   public activeCards = ActiveCardEnum;
+   public activeCard: ActiveCardEnum = this.activeCards.frontCard;
+   public rolledCard: ActiveCardEnum = this.activeCards.frontCard;
+   public count = 1;
+   public  cardPrice: number;
 
    constructor(
       private router: Router,
       private route: ActivatedRoute,
-      private widgetService: WidgetService
-   ) { }
+      private widgetService: WidgetService,
+      public authService: AuthService
+   ) { 
+      this.siteKey$ = this.authService.siteKey$;
+      this.loading$ = this.widgetService.isLoading$;
+     }
 
    ngOnInit() {
+      this.collectionId = this.route.snapshot.url[1].path;
+      this.cardId = this.route.snapshot.url[3].path;
 
-      // after back
+      this.widgetService.elHeight$
+         .pipe(takeUntil(this.unsubscribe$))
+         .subscribe((elHeight: number) => {
+            this.elHeight = elHeight;
+         });
 
-      // this.widgetService.isLoading$.pipe(takeUntil(this.unSub$)).subscribe((isLoading: boolean) => {
-      //    this.isLoading = isLoading;
-      // });
-
-      // this.route.url.subscribe((url: UrlSegment[]) => {
-      //    this.collectionId = parseInt(url[1].path);
-      //    this.cardId = parseInt(url[3].path);
-      //    this.widgetService.getCardById(this.collectionId, this.cardId);
-      // })
-
-      // if (this.widgetService.selectedCard$) {
-      //    this.widgetService.selectedCard$.pipe(takeUntil(this.unSub$)).subscribe((card: Card) => {
-      //       this.card = card;
-      //    })
-      // }
-
-
-      this.widgetService.elHeight$.pipe(takeUntil(this.unSub$)).subscribe((elHeight: number) => {
-         this.elHeight = elHeight;
-      });
-
-      this.card = {
-         "id": 0,
-         "photo": "../../assets/img/frontside.jpg",
-         "backPhoto": "../../assets/img/backside.jpg",
-         "title": "Буше Рид",
-         "circulation": 253,
-         "instock": 253,
-         "isDisable": false,
-         "currnetPrice": 250,
-         "isSale": 188,
-         "price": 250,
-         "isSalePercent": -25,
-      };
-
-      ({ price: this.cardPrice } = this.card)
+      this.widgetService.getCollections();
+      this.widgetService.collections$
+         .pipe(takeUntil(this.unsubscribe$))
+         .subscribe(data => {
+            data.map(col => {
+               if (col.id === this.collectionId) {
+                  this.collectionTitle = col.name;
+                  col.cards.map(card => {
+                     if (card.id === this.cardId) {
+                        this.card = card;
+                        this.cardPrice = card.price;
+                     }
+                  })
+               }
+            });
+         })
    }
 
-   setActiveCard() {}
+   setActiveCard() { }
 
    getOld(e: any) {
       if (e.currentTarget.value.length < 1) {
@@ -115,19 +116,30 @@ export class CardComponent implements OnInit, OnDestroy {
    }
 
    addToCart() {
-      // after back
-      // let model: any = {
-      //    collectionId: this.collectionId,
-      //    cardId: this.cardId,
-      //    count: this.count
-      // };
+      if (!this.count || !this.captchaResponse) {
+         return this.captchaRef.reset();
+      } else {
 
-      // this.widgetService.addCardToCart(model)
-      this.router.navigate(['cart']);
+         let model: AddRowRequest = {
+            cardId: this.cardId,
+            quantity: this.count,
+            expectedPrice: this.cardPrice,
+            captchaResponse: this.captchaResponse
+         }
+
+         this.widgetService.addCardToCart(model);
+
+         this.router.navigate(['cart']);
+      }
+   }
+
+   resolved(captchaResponse: string) {
+      this.captchaResponse = captchaResponse;
+      this.addToCart();
    }
 
    ngOnDestroy() {
-      this.unSub$.next();
-      this.unSub$.complete();
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
    }
 }

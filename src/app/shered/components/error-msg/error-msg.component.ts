@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+
 import { ValidationService } from './validation.service';
 
 @Component({
@@ -35,7 +36,6 @@ export class ErrorMsgComponent {
 
                if (this.withPatternControlName && propertyName === 'pattern') {
                   propertyName += this.withPatternControlName
-                  console.log(propertyName)
                }
 
                return message

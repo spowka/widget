@@ -1,5 +1,6 @@
-import { WidgetService } from 'src/app/services/widget.service';
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+
+import { WidgetService } from 'services/widget/widget.service';
 
 @Directive({
    selector: '[heightHandler]',

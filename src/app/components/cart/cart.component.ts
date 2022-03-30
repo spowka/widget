@@ -1,146 +1,118 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { WidgetService } from 'services/widget.service';
+import { RecaptchaComponent } from 'ng-recaptcha';
+
+import { Cart, CartRow, } from 'src/app/shered/models/widget';
+import { DeleteRowRequest, UpdateRowRequest, UpdateRowResponse } from 'src/app/shered/models/order';
+import { AuthService } from 'services/auth/auth.service';
+import { WidgetService } from 'services/widget/widget.service';
+
 @Component({
    selector: 'app-cart',
    templateUrl: './cart.component.html',
    styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit, OnDestroy {
-   subs$ = new Subject();
-   title = "Корзина";
-   // isLoading: boolean;
-   isLoading = false;
-   loaderItems: number[];
-   cart: any[];
-   isNotification = false;
-   isError = false;
-   isPromoSalePercent = -25;
-   total = 1400;
-   totalWithPromo = 1300;
-   promocode: string;
+   @ViewChild('captchaRef') captchaRef: RecaptchaComponent;
+
+   private unsubscribe$: Subject<void> = new Subject();
+
+   public title = "Корзина";
+   public isLoading$: Observable<boolean>;
+   public cartLoading$: Observable<boolean>;
+
+   public cartData: Cart;
+   public loaderItems$: Observable<number[]>;
+   public isCartFull$: Observable<boolean>;
+   public cartUpdateResponseData$: Observable<UpdateRowResponse>;
+
+   public siteKey$: Observable<string>;
+   public captchaResponse: string;
+
+   // TODO: promocode system
+   public isNotification = false;
+   public  isError = false;
+   public isPromoSalePercent = -25;
+   public totalWithPromo = 1300;
+   public promocode: string;
+
+   private updatingCountModel: { id: string, updatedCount?: number, action: string }
 
    constructor(
       private router: Router,
       private widgetService: WidgetService,
-   ) { }
+      private authService: AuthService
+   ) {
+      this.isLoading$ = this.widgetService.isLoading$;
+      this.cartLoading$ = this.widgetService.cartLoading$;
+      this.loaderItems$ = this.widgetService.loaderItems$;
+      this.isCartFull$ = this.widgetService.isCartFull$;
+      this.siteKey$ = this.authService.siteKey$;
+      this.cartUpdateResponseData$ = this.widgetService.cartUpdateResponseData$;
+
+      this.widgetService.cartData$.pipe(takeUntil(this.unsubscribe$)).subscribe(cardData => this.cartData = cardData);
+      this.widgetService.resetCaptchaBehavior$.pipe(takeUntil(this.unsubscribe$)).subscribe(_ => this.captchaRef.reset());
+   }
 
    ngOnInit(): void {
+      this.widgetService.getCartData();
       this.widgetService.getLoadingItems();
-
-      // after back
-      // this.widgetService.getCartData();
-
-      this.widgetService.loaderItems$.pipe(takeUntil(this.subs$)).subscribe((items: number[]) => {
-         this.loaderItems = items;
-      })
-
-      // this.widgetService.isLoading$.pipe(takeUntil(this.subs$)).subscribe((isLoading: boolean) => {
-      //    this.isLoading = isLoading;
-      // });
-
-      // this.widgetService.cartData$.pipe(takeUntil(this.subs$)).subscribe(res => {
-      //    this.cart = res;
-      // });
-
-      this.cart = [
-         {
-            "id": 0,
-            "photo": "../../assets/img/frontside.jpg",
-            "backPhoto": "../../assets/img/backside.jpg",
-            "title": "Буше Рид",
-            "circulation": 253,
-            "instock": 253,
-            "selectedCount": 7,
-            "isDisable": false,
-            "currnetPrice": 250,
-            "promocodePrice": 150,
-            "isSale": 188,
-            "isSalePercent": -25
-         },
-         {
-            "id": 1,
-            "photo": "../../assets/img/frontside.jpg",
-            "backPhoto": "../../assets/img/backside.jpg",
-            "title": "Буше Рид",
-            "circulation": 253,
-            "instock": 253,
-            "selectedCount": 1,
-            "isDisable": false,
-            "currnetPrice": 250,
-            "isSale": 188,
-            "isSalePercent": -25
-         },
-         {
-            "id": 2,
-            "photo": "../../assets/img/frontside.jpg",
-            "backPhoto": "../../assets/img/backside.jpg",
-            "title": "Буше Рид",
-            "circulation": 253,
-            "instock": 253,
-            "selectedCount": 1,
-            "isDisable": false,
-            "currnetPrice": 250,
-            "isSale": 188,
-            "isSalePercent": -25
-         },
-         {
-            "id": 4,
-            "photo": "../../assets/img/frontside.jpg",
-            "backPhoto": "../../assets/img/backside.jpg",
-            "title": "Буше Рид",
-            "circulation": 253,
-            "instock": 253,
-            "selectedCount": 1,
-            "isDisable": false,
-            "currnetPrice": 250,
-            "isSale": 0,
-            "isSalePercent": 0
-         },
-         {
-            "id": 3,
-            "photo": "../../assets/img/frontside.jpg",
-            "backPhoto": "../../assets/img/backside.jpg",
-            "title": "Буше Рид",
-            "circulation": 253,
-            "instock": 253,
-            "selectedCount": 1,
-            "isDisable": false,
-            "currnetPrice": 250,
-            "isSale": 0,
-            "isSalePercent": 0
-         }
-      ]
    }
 
-   countMinus(id: number) {
-      let selectedCart = this.cart.filter(c => c.id === id);
-      selectedCart.forEach(c => {
-         if (c.selectedCount > 1) {
-            return c.selectedCount--;
-         }
-      })
+   resolved(captchaResponse: string) {
+      this.captchaResponse = captchaResponse;
 
-   }
-
-   countPlus(id: number) {
-      let selectedCart = this.cart.filter(c => c.id === id);
-      selectedCart.forEach(c => {
-         return c.selectedCount++;
-      })
-   }
-
-   delete(id: number) {
-      this.cart = this.cart.filter(c => c.id !== id)
-   }
-
-   applyCode() {
-      if (this.promocode.trim()) {
-         // this.w
+      if (this.updatingCountModel.action === 'minus' || this.updatingCountModel.action === 'plus') {
+         this.countUpdate();
+      } else {
+         this.deleteItem();
       }
+   }
+
+   onCountUpdate(cart: CartRow, action: string) {
+      this.updatingCountModel = { id: cart.id, updatedCount: cart.rowQuantity, action };
+      this.captchaRef.execute();
+   }
+
+   onDeleteItem(cart: CartRow) {
+      this.updatingCountModel = { id: cart.id, action: 'delete' };
+      this.captchaRef.execute();
+   }
+
+   deleteItem() {
+      let model: DeleteRowRequest = {
+         cardId: this.updatingCountModel.id,
+         captchaResponse: this.captchaResponse
+      }
+
+      this.widgetService.deleteCard(model).subscribe(_ => {
+         this.widgetService.getCartData();
+      })
+   }
+
+   countUpdate() {
+      switch (this.updatingCountModel.action) {
+         case 'minus':
+            (this.updatingCountModel.updatedCount as number)--;
+            break;
+         case 'plus':
+            (this.updatingCountModel.updatedCount as number)++;
+            break;
+      }
+
+      let model: UpdateRowRequest = {
+         cardId: this.updatingCountModel.id,
+         quantity: this.updatingCountModel.updatedCount as number,
+         captchaResponse: this.captchaResponse
+      }
+
+      this.widgetService.updateCart(model).subscribe(_ => {
+         this.widgetService.getCartData();
+      })
    }
 
    applyOrder() {
@@ -148,7 +120,7 @@ export class CartComponent implements OnInit, OnDestroy {
    }
 
    ngOnDestroy() {
-      this.subs$.next();
-      this.subs$.complete()
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete()
    }
 }
